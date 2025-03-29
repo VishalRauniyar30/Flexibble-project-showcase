@@ -2,18 +2,15 @@ import { createClient } from "@sanity/client"
 import imageUrlBuilder from '@sanity/image-url'
 
 import { ProjectForm, ProjectInterface } from "@/utils"
-import { NEXT_SANITY_CLIENT_ID, NEXT_SANITY_TOKEN } from "@/temp"
 
-export const client = createClient({
-    projectId: NEXT_SANITY_CLIENT_ID,
+
+const client = createClient({
+    projectId: process.env.NEXT_PUBLIC_SANITY_CLIENT_ID,
     dataset: 'production',
     apiVersion: '2022-03-10',
     useCdn: false,
-    token: NEXT_SANITY_TOKEN,
+    token: process.env.NEXT_PUBLIC_SANITY_TOKEN
 })
-
-const serverSite = 'http://localhost:3000'
-
 
 
 const builder = imageUrlBuilder(client)
@@ -22,13 +19,14 @@ export const urlFor = (src : any) => builder.image(src)
 
 export const fetchToken = async () => {
     try {
-        const response = await fetch(`${serverSite}/api/auth/token`)
+        const response = await fetch(`http://localhost:3000/api/auth/token`)
         return response.json()
     } catch (error) {
         console.log(error)
         throw error
     }
 }
+
 
 export const getUser = async(email : string) => {
     try {
@@ -83,7 +81,7 @@ export const createUser = async(name: string, email: string, avatarUrl: string) 
 
 export const uploadImage = async (imagePath: string) => {
     try {
-        const response = await fetch(`${serverSite}/api/upload`, {
+        const response = await fetch(`http://localhost:3000/api/upload`, {
             method: 'POST',
             body: JSON.stringify({
                 path: imagePath
