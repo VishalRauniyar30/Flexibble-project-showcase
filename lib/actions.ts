@@ -3,6 +3,7 @@ import imageUrlBuilder from '@sanity/image-url'
 
 import { ProjectForm, ProjectInterface } from "@/utils"
 
+const serverUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
 
 const client = createClient({
     projectId: process.env.NEXT_PUBLIC_SANITY_CLIENT_ID,
@@ -19,7 +20,7 @@ export const urlFor = (src : any) => builder.image(src)
 
 export const fetchToken = async () => {
     try {
-        const response = await fetch(`http://localhost:3000/api/auth/token`)
+        const response = await fetch(`${serverUrl}/api/auth/token`)
         return response.json()
     } catch (error) {
         console.log(error)
@@ -81,7 +82,7 @@ export const createUser = async(name: string, email: string, avatarUrl: string) 
 
 export const uploadImage = async (imagePath: string) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/upload`, {
+        const response = await fetch(`${serverUrl}/api/upload`, {
             method: 'POST',
             body: JSON.stringify({
                 path: imagePath
