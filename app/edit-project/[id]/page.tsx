@@ -1,10 +1,16 @@
+import { redirect } from 'next/navigation'
+
 import { Modal, ProjectForm } from '@/components'
 import { getProjectDetails } from '@/lib/actions'
 import { getCurrentUser } from '@/lib/session'
-import { ProjectInterface } from '@/utils'
-import { redirect } from 'next/navigation'
 
-const EditProject = async({ params: { id } }: { params: { id: string } }) => {
+type EditProjectProps = {
+    params : {
+        id: string
+    }
+}
+
+const EditProject = async({ params: { id } }: EditProjectProps) => {
     const session = await getCurrentUser()
     
     if(!session?.user) {
