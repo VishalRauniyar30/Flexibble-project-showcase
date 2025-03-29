@@ -5,19 +5,17 @@ import { getProjectDetails } from '@/lib/actions'
 import { getCurrentUser } from '@/lib/session'
 
 type EditProjectProps = {
-    params : {
-        id: string
-    }
+    params: { id: string };
 }
 
-const EditProject = async({ params: { id } }: EditProjectProps) => {
+const EditProject = async({ params } : EditProjectProps) => {
     const session = await getCurrentUser()
     
     if(!session?.user) {
         redirect('/')
     }
 
-    const result = await getProjectDetails(id)
+    const result = await getProjectDetails(params.id)
 
     if(!result) {
         return (
