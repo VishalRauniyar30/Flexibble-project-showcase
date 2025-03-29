@@ -1,11 +1,12 @@
 import { redirect } from 'next/navigation'
+import { Params } from 'next/dist/server/request/params'
 
 import { Modal, ProjectForm } from '@/components'
 import { getProjectDetails } from '@/lib/actions'
 import { getCurrentUser } from '@/lib/session'
 
-type EditProjectProps = {
-    params: { id: string };
+interface EditProjectProps {
+    params : Params
 }
 
 const EditProject = async({ params } : EditProjectProps) => {
@@ -15,7 +16,7 @@ const EditProject = async({ params } : EditProjectProps) => {
         redirect('/')
     }
 
-    const result = await getProjectDetails(params.id)
+    const result = await getProjectDetails(params.id as string)
 
     if(!result) {
         return (
