@@ -1,7 +1,8 @@
-import { ProjectInterface, UserProfile } from "@/utils"
 import Image from "next/image"
-import { Button, ProjectCard } from "."
 import Link from "next/link"
+
+import { Button, ProjectCard } from "."
+import { ProjectInterface, UserProfile } from "@/utils"
 
 
 
@@ -12,6 +13,8 @@ type ProfilePageProps = {
 const ProfilePage = ({ user }: ProfilePageProps) => {
     const maxsize = user?.projects?.edges?.length || 0
     const randomInd = Math.floor(Math.random() * maxsize)
+    console.log(user)
+    
     return (
         <section className="flex items-center justify-center flex-col max-w-[120rem] w-full mx-auto lg:px-20 py-6 px-5">
             <section className="flex items-center justify-between max-lg:flex-col gap-10 w-full">
@@ -65,9 +68,9 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                         </Link>
                     </div>
                 </div>
-                {user?.projects?.edges ? (
+                {user?.projects?.edges?.length !== 0 ? (
                     <Image
-                        src={user?.projects?.edges[randomInd]?.node?.image}
+                        src={user?.projects?.edges[randomInd]?.node?.image || '/profile-post.png'}
                         width={739}
                         height={554}
                         alt="project image"

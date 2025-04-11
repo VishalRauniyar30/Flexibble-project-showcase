@@ -2,15 +2,6 @@ import { Categories, LoadMore, ProjectCard } from "@/components"
 import { fetchAllProjects } from "@/lib/actions"
 import { ProjectInterface } from "@/utils"
 
-type SearchParams = {
-    category?: string | null;
-    endcursor?: string | null;
-}
-
-type Props = {
-    searchParams: SearchParams
-}
-
 type ProjectSearch = {
     projectSearch: {
         edges: { node: ProjectInterface }[];
@@ -27,8 +18,10 @@ export const dynamic = 'force-dynamic'
 export const dynamicParams = true
 export const revalidate = 0
 
-const Home = async ({ searchParams: { category, endcursor } }: Props) => {
-    const data = await fetchAllProjects(category, endcursor) as ProjectSearch
+const Home = async ({ searchParams }: { searchParams: Promise<{ category?: string | null, endcursor?: string | null }> }) => {
+    const resSearchParams = await searchParams
+
+    const data = await fetchAllProjects(resSearchParams.category, resSearchParams.endcursor) as ProjectSearch
 
     const projectsToDisplay = data?.projectSearch?.edges || []
 

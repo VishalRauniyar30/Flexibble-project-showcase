@@ -1,56 +1,24 @@
-'use client'
-
-import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
-import { useSession } from "next-auth/react"
 import Link from "next/link"
 import Image from "next/image"
 
 import { Modal, ProjectActions, RelatedProjects } from "@/components"
 import { getProjectDetails } from "@/lib/actions"
 import { ProjectInterface } from "@/utils"
+import { getCurrentUser } from "@/lib/session"
 
-const Project = () => {
-    const params = useParams()
-    const id = Array.isArray(params.id) ? params.id[0] : params.id
-    
-    const [projectDetails, setProjectDetails] = useState<ProjectInterface | null>(null)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
-    
-    const { data: session } = useSession()
-    
-    useEffect(() => {
-        if(!id) {
-            return
-        }
-        const fetchProjectDetails = async () => {
-            setLoading(true)
-            try {
-                const result = await getProjectDetails(id) as ProjectInterface
-                if(!result) {
-                    setError(true)
-                } else {
-                    setProjectDetails(result)
-                }
-            } catch (error) {
-                console.error("Error fetching project details:", error)
-                setError(true)
-            } finally {
-                setLoading(false)
-            }
-        }
-        fetchProjectDetails()
-    }, [id])
+const Project = async({ params }: { params: Promise<{ id: string }> }) => {
+    const resParams = await params
 
-    if (loading) {
-        return <h1 className="w-full text-3xl text-center my-10 px-2">Loading...</h1>
+    const session = await getCurrentUser()
+
+    const projectDetails = await getProjectDetails(resParams.id) as ProjectInterface | null
+
+    if(!projectDetails) {
+        return (
+            <p>Failed to fetch project info</p>
+        )
     }
 
-    if (error) {
-        return <h1 className="w-full text-3xl text-center my-10 px-2">Failed To Fetch Project Information</h1>
-    }
-    
     return (
         <Modal>
             <section className="flex justify-between items-center gap-y-8 xl:max-w-5xl max-w-4xl max-sm:flex-col w-full">

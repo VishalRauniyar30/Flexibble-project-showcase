@@ -1,10 +1,11 @@
 'use client'
 
-import { deleteProject } from "@/lib/actions"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+
+import { deleteProject } from "@/lib/actions"
 
 type ProjectActionsProps = {
     projectId: string | undefined

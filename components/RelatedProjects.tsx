@@ -1,10 +1,11 @@
 'use client'
 
-import { getUserProjects } from "@/lib/actions"
-import { ProjectInterface, UserProfile } from "@/utils"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+
+import { getUserProjects } from "@/lib/actions"
+import { ProjectInterface, UserProfile } from "@/utils"
 
 type RelatedProjectsProps = {
     userId: string | undefined

@@ -1,7 +1,6 @@
 import AuthProviders from "./AuthProviders"
 import Button from "./Button"
 import Categories from "./Categories"
-import ClientProvider from "./ClientProvider"
 import CustomMenu from "./CustomMenu"
 import Footer from "./Footer"
 import FormField from "./FormField"
@@ -22,5 +21,4 @@ export {
     LoadMore, Modal, Navbar,
     ProfileMenu, ProfilePage, ProjectActions,
     ProjectCard, ProjectForm, RelatedProjects,
-    ClientProvider
 }
